@@ -1,4 +1,4 @@
-package com.eyo.winrerproj.entity
+package com.eyo.winterproj.entity
 
 import jakarta.persistence.*
 
