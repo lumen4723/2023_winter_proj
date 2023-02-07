@@ -4,6 +4,12 @@ import org.springframework.stereotype.Controller
 
 
 @Controller
-class MainController {
+class UserController {
 
 }
+
+data class RegisterRequestEntity(
+    val email:String,
+    val password:String,
+    val username:String,
+)
