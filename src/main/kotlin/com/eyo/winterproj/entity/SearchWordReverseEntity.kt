@@ -13,8 +13,8 @@ data class SearchWordReverseEntity(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         var id: Long? = null,
-        @Column(name = "word_id") var word_id: Long? = null,
-        @Column(name = "board_id") var board_id: Long? = null,
+        @Column(name = "word_id") var wordId: Long? = null,
+        @Column(name = "board_id") var boardId: Long? = null,
         @Column(name = "count") var count: Int? = null,
         @Column(name = "weight") var weight: Float? = null,
         @ManyToOne
