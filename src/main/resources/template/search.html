@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			th,
+			td {
+				border: 1px solid black;
+			}
+		</style>
+		<title>Namu</title>
+	</head>
+	<body>
+		<form method="get">
+			<input
+				type="text"
+				name="title"
+			/>
+			<input
+				type="text"
+				name="content"
+			/>
+			<button type="submit">search</button>
+		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>title</th>
+					<th>content</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="namu : ${namus}">
+					<td th:text="${namus.title}"></td>
+					<td th:text="${namus.content}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>
