@@ -19,12 +19,11 @@ class SearchController(@Autowired val searchService: SearchService) {
     fun search(req: SearchRequestEntity, model: Model): String {
         val namu = searchService.search(req.word)
 
-        if (namu.isEmpty()) {
+        if (namu.isFailure) {
             return "redirect:/"
         }
-        model.addAttribute("namus", namu)
+        model.addAttribute("namus", namu.getOrNull())
         println(namu)
-
         return "namu"
     }
 }

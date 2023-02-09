@@ -17,9 +17,9 @@ data class SearchWordReverseEntity(
         @Column(name = "board_id") var boardId: Long? = null,
         @Column(name = "count") var count: Int? = null,
         @Column(name = "weight") var weight: Float? = null,
-        @ManyToOne
+        @OneToOne
         @JoinColumn(name = "word_id", insertable = false, updatable = false)
-        var search_word: SearchWordEntity? = null,
+        var searchWord: SearchWordEntity? = null,
         @OneToOne
         @JoinColumn(name = "board_id", insertable = false, updatable = false)
         var namu: NamuEntity? = null,
