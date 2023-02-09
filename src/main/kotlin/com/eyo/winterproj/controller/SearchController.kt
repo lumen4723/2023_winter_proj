@@ -5,18 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/search")
+@RequestMapping("/namu")
 class SearchController(@Autowired val searchService: SearchService) {
-    @GetMapping("/namu/{word}")
-    fun search(@PathVariable("word") word: String, model: Model): String {
-        val namu = searchService.search(word)
-        model.addAttribute("namu", namu)
+    @GetMapping("/")
+    fun main(): String {
+        return "namu"
+    }
 
-        return "search"
+    @GetMapping("/search")
+    fun search(req: SearchRequestEntity, model: Model): String {
+        val namu = searchService.search(req.word)
+
+        if (namu.isEmpty()) {
+            return "redirect:/"
+        }
+        model.addAttribute("namus", namu)
+        println(namu)
+
+        return "namu"
     }
 }
 
