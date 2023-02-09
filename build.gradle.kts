@@ -27,13 +27,12 @@ dependencies {
 	// implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
 	implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
 	implementation("org.jetbrains.kotlin:kotlin-script-runtime")
-	implementation("com.oracle.database.jdbc:ojdbc11:21.8.0.0")
 	implementation("org.hibernate.orm:hibernate-core:6.2.0.CR2")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	implementation("jakarta.transaction:jakarta.transaction-api:2.0.1")
 	implementation("jakarta.interceptor:jakarta.interceptor-api:2.1.0")
 	implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-
+	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.1")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface NamuRepo : CrudRepository<NamuEntity, Long> {
-    fun findByTitle(title: String): NamuEntity?
+
 }
