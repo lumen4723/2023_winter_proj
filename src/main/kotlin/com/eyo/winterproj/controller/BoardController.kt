@@ -14,7 +14,7 @@ class BoardController {
 
     @GetMapping("/list")
     fun list() : String {
-        return "board/list/index" // localhst:8080/board/list/index.html 실행
+        return "board/list/index" // localhst:8080/board/list/index.html 실행e
     }
 
 }
