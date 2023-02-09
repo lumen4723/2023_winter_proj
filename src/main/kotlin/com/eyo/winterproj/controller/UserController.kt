@@ -19,11 +19,17 @@ class UserController(@Autowired val userService: UserService) {
     @PostMapping("/login")
     fun loginP(user: LoginRequestEntity, session: HttpSession):String{
         val user = userService.login(user.email, user.password)
-        return "redirect:/"
+        if(user.isPresent){
+            session.setAttribute("user", user.get())
+            return "redirect:/"
+        }
+        return "redirect:/user/login?msg=LoginFailed"
     }
     @PostMapping("/logout")
     fun logout(user: LogoutRequestEntity, session: HttpSession): String{
-        return "redirect:/"
+            session.removeAttribute("user")
+//            session.invalidate()
+            return "redirect:/"
     }
 }
 
