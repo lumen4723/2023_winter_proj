@@ -15,4 +15,10 @@ class UserService(@Autowired val userRepository: UserRepository) {
 //    fun logout(email: String, password: String): Optional<UserEntity>{
 //        return userRepository.findByEmailAndPassword(email, password)
 //    }
+
+    fun register(email:String, password:String,name:String): UserEntity {
+        val user= UserEntity(0,email, password, name);
+        userRepository.save(user)
+        return user
+    }
 }

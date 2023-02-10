@@ -31,6 +31,17 @@ class UserController(@Autowired val userService: UserService) {
 //            session.invalidate()
             return "redirect:/"
     }
+
+    @GetMapping("/signup")
+    fun register():String{
+        return "signup"
+    }
+
+    @PostMapping("/signup")
+    fun registerP(user:RegisterRequestEntity) :String{
+        userService.register(user.email, user.password, user.username)
+        return "redirect:/user/login"
+    }
 }
 
 data class RegisterRequestEntity(
