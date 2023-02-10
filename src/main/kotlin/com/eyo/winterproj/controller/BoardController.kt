@@ -1,11 +1,11 @@
-package com.eyo.winterproj.Controller
+package com.eyo.winterproj.controller
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/board") // board게시판은 localhost:8008/board을 입력하면
+@RequestMapping("/board") // board게시판은 localhost:8080/board을 입력하면
 class BoardController {
     @GetMapping("/")
     fun index() : String {
@@ -14,7 +14,7 @@ class BoardController {
 
     @GetMapping("/list")
     fun list() : String {
-        return "board/list/index" // localhst:8080/board/list/index.html 실행e
+        return "board/list/index" // localhst:8080/board/list/index.html 실행
     }
 
 }

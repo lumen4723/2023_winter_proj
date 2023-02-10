@@ -4,5 +4,5 @@ import com.eyo.winterproj.entity.BoardEntity
 import org.springframework.data.repository.CrudRepository
 
 interface BoardRepo : CrudRepository<BoardEntity, Int> {
-    val findByArticleId
+    //fun findByArticleId(articleId: Int): Optional<BoardEntity>
 }
