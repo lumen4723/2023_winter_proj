@@ -8,4 +8,5 @@ class WinterProjApplication
 
 fun main(args: Array<String>) {
 	runApplication<WinterProjApplication>(*args)
+	
 }
