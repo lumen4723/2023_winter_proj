@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SearchWordReverseRepo : CrudRepository<SearchWordReverseEntity, Long> {
     fun findByWordId(wordId: Long): Optional<List<SearchWordReverseEntity>>
+    fun findByBoardId(boardId: Long): Optional<SearchWordReverseEntity>
 }
