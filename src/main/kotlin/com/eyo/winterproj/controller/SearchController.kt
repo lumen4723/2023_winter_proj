@@ -31,21 +31,11 @@ class SearchController(@Autowired val searchService: SearchService) {
         return "namu/index"
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseBody
-    fun delete(@PathVariable id: Long): String {
-        val result = searchService.delete(id)
-        if (result.isFailure) {
-            return "redirect:/namu/error/"
-        }
-        return "삭제되었습니다."
-    }
-
     @GetMapping("/create")
     fun create(): String {
         return "namu_create"
     }
-    
+
     @PostMapping("/create")
     fun create(req: CreateNamuDto, model: Model): String {
         val namu = searchService.create(req)
@@ -57,6 +47,16 @@ class SearchController(@Autowired val searchService: SearchService) {
         model.addAttribute("namus", namu.getOrNull())
         println(namu)
         return "namu"
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    fun delete(@PathVariable id: Long): String {
+        val result = searchService.delete(id)
+        if (result.isFailure) {
+            return "redirect:/namu/error/"
+        }
+        return "삭제되었습니다."
     }
 }
 
