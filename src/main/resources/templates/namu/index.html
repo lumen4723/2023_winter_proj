@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-			integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		></script>
-		<style>
-			table {
-				border-collapse: collapse;
-			}
-			th,
-			td {
-				border: 1px solid black;
-			}
-		</style>
-		<title>Namu</title>
-	</head>
-	<body>
-		<form action="/namu/search" method="get">
-			<input type="text" name="word" />
-			<button type="submit">search</button>
-		</form>
-		<table>
-			<thead>
-				<tr>
-					<th>title</th>
-					<th>content</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="namu : ${namus}">
-					<td th:text="${namu.title}"></td>
-					<td th:text="${namu.content}"></td>
-					<td>
-						<button th:data-id="${namu.id}" class="btn-del">
-							삭제
-						</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</body>
-	<script>
-		$(".btn-del").click((e) => {
-			let is_delete = confirm("정말 삭제하시겠습니까?");
-			if (is_delete) {
-				$.ajax({
-					url: "/namu/" + $(e.target).data("id"),
-					type: "DELETE",
-					dataType: "text",
-					success: (data) => {
-						alert(data);
-						location.reload();
-					},
-				});
-			}
-		});
-	</script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
+        <title>Namu</title>
+    </head>
+    <body>
+        <form action="/namu/search" method="get">
+            <input type="text" name="word" />
+            <button type="submit">search</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>title</th>
+                    <th>content</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="namu : ${namus}">
+                    <td th:text="${namu.title}"></td>
+                    <td th:text="${namu.content}"></td>
+                    <td>
+                        <button th:data-id="${namu.id}" class="btn-del">
+                            삭제
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${pagecount > 1}">
+            <span th:each="i : ${#numbers.sequence(1, pagecount)}">
+                <a
+                    th:href="@{/namu/search(word=${word}, page=${i})}"
+                    th:text="${i}"
+                ></a>
+            </span>
+        </div>
+    </body>
+    <script>
+        $('.btn-del').click((e) => {
+            let is_delete = confirm('정말 삭제하시겠습니까?');
+            if (is_delete) {
+                $.ajax({
+                    url: '/namu/' + $(e.target).data('id'),
+                    type: 'DELETE',
+                    dataType: 'text',
+                    success: (data) => {
+                        alert(data);
+                        location.reload();
+                    },
+                });
+            }
+        });
+    </script>
+    <!-- $('.page').click((e) => {
+        e.preventDefault();
+        console.log(e.target);
+        let page = $(e.target).text();
+        console.log(page);
+        let word = $('.input-word').val();
+        console.log(word);
+        location.href = `/namu/search?word=${word}&page=${page}`;
+    }); -->
 </html>

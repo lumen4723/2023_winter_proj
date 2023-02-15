@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import com.eyo.winterproj.entity.NamuEntity
 
 @Controller
 @RequestMapping("/namu")
@@ -27,8 +28,18 @@ class SearchController(@Autowired val searchService: SearchService) {
         if (namu.isFailure) {
             return "redirect:/namu/error/"
         }
-        model.addAttribute("namus", namu.getOrNull())
+
+        val namulist = namu.getOrNull()
+        model.addAttribute("namus", pagination(namulist!!, req.page, req.limit))
+        model.addAttribute("pagecount", namulist!!.size)
+        
         return "namu/index"
+    }
+
+    fun pagination(namus: List<NamuEntity>, page: Int = 1, limit: Int = 10): List<NamuEntity> {
+        val start = (page - 1) * limit
+        val end = if (start + limit < namus.size) start + limit else namus.size 
+        return namus.subList(start, end)
     }
 
     @GetMapping("/create")
@@ -60,4 +71,8 @@ class SearchController(@Autowired val searchService: SearchService) {
     }
 }
 
-data class SearchRequestEntity(val word: String)
+data class SearchRequestEntity(
+    val word: String,
+    val page: Int = 1,
+    val limit: Int = 2
+)
