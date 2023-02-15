@@ -1,5 +1,6 @@
 package com.eyo.winterproj.controller
 
+import com.eyo.winterproj.entity.CreateNamuDto
 import com.eyo.winterproj.service.SearchService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -38,6 +39,24 @@ class SearchController(@Autowired val searchService: SearchService) {
             return "redirect:/namu/error/"
         }
         return "삭제되었습니다."
+    }
+
+    @GetMapping("/create")
+    fun create(): String {
+        return "namu_create"
+    }
+    
+    @PostMapping("/create")
+    fun create(req: CreateNamuDto, model: Model): String {
+        val namu = searchService.create(req)
+
+        if (namu.isFailure) {
+            println("create failed")
+            return "namu_create"
+        }
+        model.addAttribute("namus", namu.getOrNull())
+        println(namu)
+        return "namu"
     }
 }
 
