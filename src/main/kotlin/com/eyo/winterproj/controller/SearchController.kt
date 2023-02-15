@@ -4,15 +4,19 @@ import com.eyo.winterproj.service.SearchService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/namu")
 class SearchController(@Autowired val searchService: SearchService) {
     @GetMapping("/")
     fun main(): String {
-        return "namu"
+        return "namu/index"
+    }
+
+    @GetMapping("/error")
+    fun error(): String {
+        return "namu/error"
     }
 
     @GetMapping("/search")
@@ -20,11 +24,20 @@ class SearchController(@Autowired val searchService: SearchService) {
         val namu = searchService.search(req.word)
 
         if (namu.isFailure) {
-            return "redirect:/"
+            return "redirect:/namu/error/"
         }
         model.addAttribute("namus", namu.getOrNull())
-        println(namu)
-        return "namu"
+        return "namu/index"
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    fun delete(@PathVariable id: Long): String {
+        val result = searchService.delete(id)
+        if (result.isFailure) {
+            return "redirect:/namu/error/"
+        }
+        return "삭제되었습니다."
     }
 }
 

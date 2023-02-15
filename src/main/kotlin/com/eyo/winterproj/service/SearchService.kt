@@ -17,7 +17,9 @@ class SearchService(
     fun search(word: String): Result<List<NamuEntity>> {
         var namu: List<NamuEntity>? = null
         searchWordRepo.findByWord(word).ifPresent {
-            searchWordReverseRepo.findByWordId(it.id!!).ifPresent { namu = it.map { it.namu!! } }
+            searchWordReverseRepo.findByWordId(it.id!!).ifPresent {
+                namu = it.filter { it.namu!!.flag == 0 }.map { it.namu!! }
+            }
         }
         if (namu == null) {
             return Result.failure(Exception("검색 결과가 없습니다."))
@@ -28,10 +30,13 @@ class SearchService(
 
     fun delete(id: Long): Result<Boolean> {
         var result = false
-        searchWordReverseRepo.findByBoardId(id).ifPresent {
-            namuRepo.findById(it.boardId!!).ifPresent { namuRepo.changeFlag(0) }
-            searchWordRepo.findById(it.wordId!!).ifPresent { searchWordRepo.countDown(1) }
-        }
+        val searchWordReverseRepo = searchWordReverseRepo.findByNamuId(id).get()
+        searchWordReverseRepo.namu!!.flag = 1
+        searchWordReverseRepo.searchWord!!.count =
+                searchWordReverseRepo.searchWord!!.count!! - searchWordReverseRepo.count!!
+        namuRepo.save(searchWordReverseRepo.namu!!)
+        searchWordRepo.save(searchWordReverseRepo.searchWord!!)
+
         if (result) {
             return Result.success(result)
         } else {
