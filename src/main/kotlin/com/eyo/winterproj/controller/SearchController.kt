@@ -42,11 +42,11 @@ class SearchController(@Autowired val searchService: SearchService) {
 
         if (namu.isFailure) {
             println("create failed")
-            return "namu_create"
+            return "namu/namu_create"
         }
         model.addAttribute("namus", namu.getOrNull())
         println(namu)
-        return "namu"
+        return "namu/index"
     }
 
     @DeleteMapping("/{id}")

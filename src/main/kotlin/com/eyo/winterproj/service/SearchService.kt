@@ -37,15 +37,15 @@ class SearchService(
                         id = 0,
                         title = input.title,
                         content = input.content,
-                        flag = 1,
+                        flag = 0,
                 )
         val saved_namu = namuRepo.save(namu)
         make_map(input.title, input.content).iterator().forEach {
             val wordEntity =
                     searchWordRepo.findByWord(it.key).orElseGet {
                         val wordEntity = SearchWordEntity(id = 0, word = it.key, count = 0)
-                        searchWordRepo.save(wordEntity)
-                        wordEntity
+                        val savedWordEntity = searchWordRepo.save(wordEntity)
+                        savedWordEntity
                     }
             wordEntity.count = wordEntity.count!! + it.value
             val saved_word = searchWordRepo.save(wordEntity)
