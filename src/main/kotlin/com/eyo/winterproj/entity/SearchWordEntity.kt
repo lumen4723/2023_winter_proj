@@ -10,6 +10,6 @@ data class SearchWordEntity(
         @Column(name = "id")
         var id: Long? = null,
         @Column(name = "word") var word: String? = null,
-        @Column(name = "count") var count: Int? = null,
+        @Column(name = "count") var count: Int = 0,
 
 )

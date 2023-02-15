@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface NamuRepo : CrudRepository<NamuEntity, Long> {
-    fun changeFlag(flag: Int): Optional<NamuEntity>
+//    fun changeFlag(flag: Int): Optional<NamuEntity>
 }

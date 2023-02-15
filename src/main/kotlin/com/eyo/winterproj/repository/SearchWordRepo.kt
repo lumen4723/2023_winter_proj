@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SearchWordRepo : CrudRepository<SearchWordEntity, Long> {
     fun findByWord(word: String): Optional<SearchWordEntity>
-    fun countDown(amount: Int): Optional<SearchWordEntity>
+//    fun countDown(amount: Int): Optional<SearchWordEntity>
 }
