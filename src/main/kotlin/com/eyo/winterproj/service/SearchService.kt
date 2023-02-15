@@ -21,7 +21,7 @@ class SearchService(
         var namu: List<NamuEntity>? = null
         searchWordRepo.findByWord(word).ifPresent {
             searchWordReverseRepo.findByWordId(it.id!!).ifPresent {
-                namu = it.filter { it.namu!!.flag == 0 }.map { it.namu!! }
+                namu = it.filter { it.namu!!.flag == 1 }.map { it.namu!! }
             }
         }
         if (namu == null) {
@@ -65,7 +65,7 @@ class SearchService(
     fun delete(id: Long): Result<Boolean> {
         var result = false
         val searchWordReverseRepo = searchWordReverseRepo.findByNamuId(id).get()
-        searchWordReverseRepo.namu!!.flag = 1
+        searchWordReverseRepo.namu!!.flag = 0
         searchWordReverseRepo.searchWord!!.count =
                 searchWordReverseRepo.searchWord!!.count!! - searchWordReverseRepo.count!!
         namuRepo.save(searchWordReverseRepo.namu!!)

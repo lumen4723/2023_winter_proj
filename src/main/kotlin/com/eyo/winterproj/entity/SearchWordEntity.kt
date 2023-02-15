@@ -9,7 +9,6 @@ data class SearchWordEntity(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         var id: Long? = null,
-        @Column(name = "word") var word: String? = null,
+        @Column(name = "word", unique = true) var word: String? = null,
         @Column(name = "count") var count: Int = 0,
-
 )
