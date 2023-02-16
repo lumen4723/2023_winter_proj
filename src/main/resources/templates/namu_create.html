@@ -5,10 +5,15 @@
     <title>create</title>
 </head>
 <body>
-<form action="/namu/create" method="post">
-    <textarea name="title"></textarea>
-    <textarea name="content"></textarea>
-    <button type="submit">제출</button>
-</form>
+    <form action="/namu/create" method="post">
+        <textarea name="title"></textarea>
+        <textarea name="content"></textarea>
+        <button type="submit">제출</button>
+    </form>
+    <form id="delete_form" action="/namu/create/namuToWord" method="post">
+        <textarea name="start"></textarea>
+        <textarea name="limit"></textarea>
+        <button type="submit">제출</button>
+    </form>
 </body>
 </html>

@@ -9,7 +9,10 @@ import com.eyo.winterproj.repository.SearchWordRepo
 import com.eyo.winterproj.repository.SearchWordReverseRepo
 import java.util.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.data.domain.Page
 
 @Service
 class SearchService(
@@ -86,8 +89,45 @@ class SearchService(
     fun make_map(title: String, content: String): MutableMap<String, Int> {
         // hash<string, int> 생성
         var map = mutableMapOf<String, Int>()
-        map = title.input_map(map)
-        map = content.input_map(map)
+        map = title.replace("\\p{Zs}+".toRegex(), "").toLowerCase().input_map(map)
+        map = content.replace("\\p{Zs}+".toRegex(), "").toLowerCase().input_map(map)
         return map
+    }
+
+    fun create_namu_to_word(start: Int, limit: Int): Result<String>{
+        val pageRequest = PageRequest.of(start, limit)
+        val namus = namuRepo.findAllBy(pageRequest)
+        namus.ifPresent{
+            it.forEach {
+                println("------------------------------------------------------------------")
+                println(" id: "+it.id)
+                println("title: "+it.title)
+                println(" content: "+it.content)
+                val namuId = it.id!!
+                println("------------------------------------------------------------------")
+                println(make_map(it.title!!, it.content!!))
+                make_map(it.title!!, it.content!!).iterator().forEach {
+                    val wordEntity =
+                            searchWordRepo.findByWord(it.key).orElseGet {
+                                val wordEntity = SearchWordEntity(id = 0, word = it.key, count = 0)
+                                val savedWordEntity = searchWordRepo.save(wordEntity)
+                                savedWordEntity
+                            }
+                    wordEntity.count = wordEntity.count!! + it.value
+                    val saved_word = searchWordRepo.save(wordEntity)
+                    val wordReverseEntity =
+                            SearchWordReverseEntity(
+                                    id = 0,
+                                    wordId = saved_word.id!!,
+                                    namuId = namuId,
+                                    count = it.value,
+                                    weight = it.value / Math.log(saved_word.count + 1.0)
+                            )
+                    searchWordReverseRepo.save(wordReverseEntity)
+                }
+            }
+        }
+        println("------------------------------------------------------------------")
+        return Result.success("success")
     }
 }

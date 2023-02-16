@@ -48,16 +48,17 @@ class SearchController(@Autowired val searchService: SearchService) {
     }
 
     @PostMapping("/create")
+    @ResponseBody
     fun create(req: CreateNamuDto, model: Model): String {
         val namu = searchService.create(req)
 
         if (namu.isFailure) {
             println("create failed")
-            return "namu/namu_create"
+            return "redirect:/namu/error/"
         }
         model.addAttribute("namus", namu.getOrNull())
         println(namu)
-        return "namu/index"
+        return "생성되었습니다"
     }
 
     @DeleteMapping("/{id}")
@@ -69,10 +70,26 @@ class SearchController(@Autowired val searchService: SearchService) {
         }
         return "삭제되었습니다."
     }
+
+    @PostMapping("/create/namuToWord")
+    @ResponseBody
+    fun namuToWord(req: namu_to_word_limit): String {
+        val result = searchService.create_namu_to_word(req.start,req.limit)
+        if (result.isFailure) {
+            println("create failed")
+            return "redirect:/namu/create"
+        }
+        return "redirect:/namu/"
+    }
 }
 
 data class SearchRequestEntity(
     val word: String,
     val page: Int = 1,
     val limit: Int = 2
+)
+
+data class namu_to_word_limit(
+    val start: Int = 0,
+    val limit: Int = 10
 )
