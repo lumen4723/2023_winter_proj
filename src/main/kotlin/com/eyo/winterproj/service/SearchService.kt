@@ -40,28 +40,10 @@ class SearchService(
                         id = 0,
                         title = input.title,
                         content = input.content,
-                        flag = 0,
+                        flag = 1,
                 )
         val saved_namu = namuRepo.save(namu)
-        make_map(input.title, input.content).iterator().forEach {
-            val wordEntity =
-                    searchWordRepo.findByWord(it.key).orElseGet {
-                        val wordEntity = SearchWordEntity(id = 0, word = it.key, count = 0)
-                        val savedWordEntity = searchWordRepo.save(wordEntity)
-                        savedWordEntity
-                    }
-            wordEntity.count = wordEntity.count!! + it.value
-            val saved_word = searchWordRepo.save(wordEntity)
-            val wordReverseEntity =
-                    SearchWordReverseEntity(
-                            id = 0,
-                            wordId = saved_word.id!!,
-                            namuId = saved_namu.id!!,
-                            count = it.value,
-                            weight = it.value / Math.log(saved_word.count + 1.0)
-                    )
-            searchWordReverseRepo.save(wordReverseEntity)
-        }
+        make_map(input.title, input.content).create_tables_from_namu(saved_namu.id!!)
         return Result.success(saved_namu)
     }
 
@@ -94,6 +76,28 @@ class SearchService(
         return map
     }
 
+    infix fun MutableMap<String,Int>.create_tables_from_namu(namuId: Long) {
+        this.iterator().forEach {
+            val wordEntity =
+                    searchWordRepo.findByWord(it.key).orElseGet {
+                        val wordEntity = SearchWordEntity(id = 0, word = it.key, count = 0)
+                        val savedWordEntity = searchWordRepo.save(wordEntity)
+                        savedWordEntity
+                    }
+            wordEntity.count = wordEntity.count!! + it.value
+            val saved_word = searchWordRepo.save(wordEntity)
+            val wordReverseEntity =
+                    SearchWordReverseEntity(
+                            id = 0,
+                            wordId = saved_word.id!!,
+                            namuId = namuId,
+                            count = it.value,
+                            weight = it.value / Math.log(saved_word.count + 1.0)
+                    )
+            searchWordReverseRepo.save(wordReverseEntity)
+        }
+    }
+
     fun create_namu_to_word(start: Int, limit: Int): Result<String>{
         val pageRequest = PageRequest.of(start, limit)
         val namus = namuRepo.findAllBy(pageRequest)
@@ -106,25 +110,7 @@ class SearchService(
                 val namuId = it.id!!
                 println("------------------------------------------------------------------")
                 println(make_map(it.title!!, it.content!!))
-                make_map(it.title!!, it.content!!).iterator().forEach {
-                    val wordEntity =
-                            searchWordRepo.findByWord(it.key).orElseGet {
-                                val wordEntity = SearchWordEntity(id = 0, word = it.key, count = 0)
-                                val savedWordEntity = searchWordRepo.save(wordEntity)
-                                savedWordEntity
-                            }
-                    wordEntity.count = wordEntity.count!! + it.value
-                    val saved_word = searchWordRepo.save(wordEntity)
-                    val wordReverseEntity =
-                            SearchWordReverseEntity(
-                                    id = 0,
-                                    wordId = saved_word.id!!,
-                                    namuId = namuId,
-                                    count = it.value,
-                                    weight = it.value / Math.log(saved_word.count + 1.0)
-                            )
-                    searchWordReverseRepo.save(wordReverseEntity)
-                }
+                make_map(it.title!!, it.content!!).create_tables_from_namu(namuId)
             }
         }
         println("------------------------------------------------------------------")

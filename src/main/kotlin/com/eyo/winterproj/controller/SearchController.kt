@@ -30,6 +30,7 @@ class SearchController(@Autowired val searchService: SearchService) {
         }
 
         val namulist = namu.getOrNull()
+
         model.addAttribute("namus", pagination(namulist!!, req.page, req.limit))
         model.addAttribute("pagecount", namulist!!.size)
         
@@ -79,7 +80,7 @@ class SearchController(@Autowired val searchService: SearchService) {
             println("create failed")
             return "redirect:/namu/create"
         }
-        return "redirect:/namu/"
+        return "redirect:/namu/create"
     }
 }
 
