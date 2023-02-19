@@ -45,7 +45,10 @@ class SearchController(
     fun pagination(namus: List<NamuEntity>, page: Int = 1, limit: Int = 10): List<NamuEntity> {
         val start = (page - 1) * limit
         val end = if (start + limit < namus.size) start + limit else namus.size
-        return namus.subList(start, end)
+        var showlist = namus.subList(start, end)
+        val textcut = 100 // limit text length in list
+        showlist.forEach{ it.content = it.content!!.substring(0, textcut) + "..." }
+        return showlist
     }
     
     fun pagecount(namus: List<NamuEntity>, limit: Int = 10): Int {
@@ -80,6 +83,17 @@ class SearchController(
         }
         model.addAttribute("namu", namu.get())
         return "namu/namu_edit"
+    }
+
+    @GetMapping("/{id}")
+    fun detail(@PathVariable id: Long, model: Model): String {
+        val namu = namuRepo.findById(id)
+
+        if (namu.isEmpty) {
+            return "redirect:/namu/error/"
+        }
+        model.addAttribute("namu", namu.get())
+        return "namu/namu_detail"
     }
 
     @PutMapping("/{id}")
