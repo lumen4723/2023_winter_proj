@@ -48,10 +48,7 @@
 
         <div th:if="${pagecount > 1}">
             <span th:each="i : ${#numbers.sequence(1, pagecount)}">
-                <a
-                    th:href="@{/namu/search(word=${word}, page=${i})}"
-                    th:text="${i}"
-                ></a>
+                <a th:text="${i}" class="btn-page"></a>
             </span>
         </div>
     </body>
@@ -70,14 +67,12 @@
                 });
             }
         });
-        //$('.page').click((e) => {
-        //    e.preventDefault();
-        //    console.log(e.target);
-        //    let page = $(e.target).text();
-        //    console.log(page);
-        //    let word = $('.input-word').val();
-        //    console.log(word);
-        //    location.href = `/namu/search?word=${word}&page=${page}`;
-        //});
+
+        $('.btn-page').click((e) => {
+            //현재 경로에서 page 파라미터를 추가또는 변경
+            let url = new URL(location.href);
+            url.searchParams.set('page', $(e.target).text());
+            location.href = url;
+        });
     </script>
 </html>
