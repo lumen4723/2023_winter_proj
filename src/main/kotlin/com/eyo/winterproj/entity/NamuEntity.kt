@@ -20,3 +20,8 @@ data class  CreateNamuDto (
         var content: String
 )
 
+data class UpdateNamuDto (
+        var title: String,
+        @Column(name = "content",columnDefinition = "LONGTEXT")
+        var content: String
+)

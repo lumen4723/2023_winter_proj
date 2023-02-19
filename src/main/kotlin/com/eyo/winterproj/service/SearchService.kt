@@ -4,15 +4,14 @@ import com.eyo.winterproj.entity.CreateNamuDto
 import com.eyo.winterproj.entity.NamuEntity
 import com.eyo.winterproj.entity.SearchWordEntity
 import com.eyo.winterproj.entity.SearchWordReverseEntity
+import com.eyo.winterproj.entity.UpdateNamuDto
 import com.eyo.winterproj.repository.NamuRepo
 import com.eyo.winterproj.repository.SearchWordRepo
 import com.eyo.winterproj.repository.SearchWordReverseRepo
 import java.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import org.springframework.data.domain.Page
 
 @Service
 class SearchService(
@@ -20,6 +19,19 @@ class SearchService(
         @Autowired val searchWordReverseRepo: SearchWordReverseRepo,
         @Autowired val namuRepo: NamuRepo,
 ) {
+    fun create(input: CreateNamuDto): Result<NamuEntity> {
+        val namu =
+                NamuEntity(
+                        id = 0,
+                        title = input.title,
+                        content = input.content,
+                        flag = 1,
+                )
+        val saved_namu = namuRepo.save(namu)
+        make_map(input.title, input.content).create_tables_from_namu(saved_namu.id!!)
+        return Result.success(saved_namu)
+    }
+
     fun search(word: String): Result<List<NamuEntity>> {
         var namu: List<NamuEntity>? = null
         searchWordRepo.findByWord(word).ifPresent {
@@ -34,17 +46,17 @@ class SearchService(
         }
     }
 
-    fun create(input: CreateNamuDto): Result<NamuEntity> {
-        val namu =
-                NamuEntity(
-                        id = 0,
-                        title = input.title,
-                        content = input.content,
-                        flag = 1,
-                )
-        val saved_namu = namuRepo.save(namu)
-        make_map(input.title, input.content).create_tables_from_namu(saved_namu.id!!)
-        return Result.success(saved_namu)
+    fun update(id: Long, input: UpdateNamuDto): Result<Boolean> {
+        val targetNamu = namuRepo.findById(id)
+        if (targetNamu.isEmpty) {
+            return Result.failure(Exception("수정할 게시글이 없습니다."))
+        }
+        val namuEntt = targetNamu.get()
+        namuEntt.title = input.title
+        namuEntt.content = input.content
+        namuRepo.save(namuEntt)
+
+        return Result.success(true)
     }
 
     fun delete(id: Long): Result<Boolean> {
@@ -76,7 +88,7 @@ class SearchService(
         return map
     }
 
-    infix fun MutableMap<String,Int>.create_tables_from_namu(namuId: Long) {
+    infix fun MutableMap<String, Int>.create_tables_from_namu(namuId: Long) {
         this.iterator().forEach {
             val wordEntity =
                     searchWordRepo.findByWord(it.key).orElseGet {
@@ -98,15 +110,15 @@ class SearchService(
         }
     }
 
-    fun create_namu_to_word(start: Int, limit: Int): Result<String>{
+    fun create_namu_to_word(start: Int, limit: Int): Result<String> {
         val pageRequest = PageRequest.of(start, limit)
         val namus = namuRepo.findAllBy(pageRequest)
-        namus.ifPresent{
+        namus.ifPresent {
             it.forEach {
                 println("------------------------------------------------------------------")
-                println(" id: "+it.id)
-                println("title: "+it.title)
-                println(" content: "+it.content)
+                println(" id: " + it.id)
+                println("title: " + it.title)
+                println(" content: " + it.content)
                 val namuId = it.id!!
                 println("------------------------------------------------------------------")
                 println(make_map(it.title!!, it.content!!))
