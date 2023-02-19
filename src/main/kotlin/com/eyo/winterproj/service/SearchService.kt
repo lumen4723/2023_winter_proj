@@ -33,10 +33,11 @@ class SearchService(
     }
 
     fun search(word: String): Result<List<NamuEntity>> {
+        val comparator: Comparator<SearchWordReverseEntity> = compareByDescending { it.weight }
         var namu: List<NamuEntity>? = null
         searchWordRepo.findByWord(word).ifPresent {
             searchWordReverseRepo.findByWordId(it.id!!).ifPresent {
-                namu = it.filter { it.namu!!.flag == 1 }.map { it.namu!! }
+                namu = it.filter { it.namu!!.flag == 1 }.sortedWith(comparator).map { it.namu!! }
             }
         }
         if (namu == null) {
