@@ -37,7 +37,7 @@ class SearchController(
         val namulist = namu.getOrNull()
 
         model.addAttribute("namus", pagination(namulist!!, req.page, req.limit))
-        model.addAttribute("pagecount", namulist!!.size)
+        model.addAttribute("pagecount", pagecount(namulist, req.limit))
 
         return "namu/index"
     }
@@ -46,6 +46,10 @@ class SearchController(
         val start = (page - 1) * limit
         val end = if (start + limit < namus.size) start + limit else namus.size
         return namus.subList(start, end)
+    }
+    
+    fun pagecount(namus: List<NamuEntity>, limit: Int = 10): Int {
+        return namus.size / limit + if(namus.size % limit == 0) 0 else 1
     }
 
     @GetMapping("/create")
@@ -110,6 +114,6 @@ class SearchController(
     }
 }
 
-data class SearchRequestEntity(val word: String, val page: Int = 1, val limit: Int = 2)
+data class SearchRequestEntity(val word: String, val page: Int = 1, val limit: Int = 10)
 
 data class namu_to_word_limit(val start: Int = 0, val limit: Int = 10)
