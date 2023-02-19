@@ -9,4 +9,5 @@ import java.util.*
 
 @Repository interface NamuRepo  : CrudRepository<NamuEntity, Long> {
     fun findAllBy(pageable: Pageable): Optional<List<NamuEntity>>
+    fun findByIdAndFlag(id: Long, flag: Int): Optional<NamuEntity>
 }

@@ -12,6 +12,7 @@ import java.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class SearchService(
@@ -60,20 +61,26 @@ class SearchService(
         return Result.success(true)
     }
 
-    fun delete(id: Long): Result<Boolean> {
-        var result = false
-        val searchWordReverseRepo = searchWordReverseRepo.findByNamuId(id).get()
-        searchWordReverseRepo.namu!!.flag = 0
-        searchWordReverseRepo.searchWord!!.count =
-                searchWordReverseRepo.searchWord!!.count!! - searchWordReverseRepo.count!!
-        namuRepo.save(searchWordReverseRepo.namu!!)
-        searchWordRepo.save(searchWordReverseRepo.searchWord!!)
-
-        if (result) {
-            return Result.success(result)
-        } else {
-            return Result.failure(Exception("삭제할 게시글이 없습니다."))
+    fun delete(id: Long,deleteNamu: Boolean,deleteReverse: Boolean): Result<Boolean> {
+        val namu = namuRepo.findByIdAndFlag(id,1).orElse(null)
+        if(namu == null) return Result.failure(Exception("삭제할 게시글이 없습니다."))
+        if(deleteNamu){
+            namu.flag = 0
+            namuRepo.save(namu)
         }
+        searchWordReverseRepo.findByNamuId(id).ifPresent {
+            it.forEach {
+                it.searchWord!!.count = it.searchWord!!.count!! - it.count!!
+                if(it.searchWord!!.count <= 0) {
+                    println(it.searchWord!!)
+                    println("해당 단어를 가진 엔티티가 없습니다. 후에 삭제 부탁드립니다.")
+                    it.searchWord!!.count = 0
+                }
+                searchWordRepo.save(it.searchWord!!)
+                if(deleteReverse) searchWordReverseRepo.delete(it)
+            }
+        }
+        return Result.success(true)
     }
 
     infix fun String.input_map(map: MutableMap<String, Int>): MutableMap<String, Int> {
@@ -113,9 +120,9 @@ class SearchService(
 
     fun create_namu_to_word(start: Int, limit: Int): Result<String> {
         val pageRequest = PageRequest.of(start, limit)
-        val namus = namuRepo.findAllBy(pageRequest)
-        namus.ifPresent {
-            it.forEach {
+        val namus = namuRepo.findAllBy(pageRequest).get()
+        if(namus == null) return Result.failure(Exception("게시글을 찾을 수 없습니다."))
+        namus.forEach {
                 println("------------------------------------------------------------------")
                 println(" id: " + it.id)
                 println("title: " + it.title)
@@ -124,7 +131,6 @@ class SearchService(
                 println("------------------------------------------------------------------")
                 println(make_map(it.title!!, it.content!!))
                 make_map(it.title!!, it.content!!).create_tables_from_namu(namuId)
-            }
         }
         println("------------------------------------------------------------------")
         return Result.success("success")

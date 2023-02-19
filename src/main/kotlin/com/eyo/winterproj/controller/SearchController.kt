@@ -109,7 +109,7 @@ class SearchController(
     @DeleteMapping("/{id}")
     @ResponseBody
     fun delete(@PathVariable id: Long): String {
-        val result = searchService.delete(id)
+        val result = searchService.delete(id,true,false)
         if (result.isFailure) {
             return "redirect:/namu/error/"
         }
@@ -125,6 +125,16 @@ class SearchController(
             return "redirect:/namu/create"
         }
         return "redirect:/namu/create"
+    }
+
+    @DeleteMapping("/exceptNamu/{id}")
+    @ResponseBody
+    fun deleteExceptNamu(@PathVariable id: Long): String {
+        val result = searchService.delete(id,false,true)
+        if (result.isFailure) {
+            return "redirect:/namu/error/"
+        }
+        return "삭제되었습니다."
     }
 }
 
