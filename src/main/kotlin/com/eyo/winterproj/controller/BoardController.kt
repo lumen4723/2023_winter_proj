@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/board") // board게시판은 localhost:8080/board을 입력하면 class가 2개면 무엇을 우선으로
 class BoardController(@Autowired val boardService: BoardService) {
     @GetMapping("/")
-    fun index(md: Model) : String {
-        val boardList = boardService.BoardRepo.findAll().toPrint() // toPrint
-        md.addAttribute("boardlist", boardList)
+    fun index() : String {
         return "redirect:/board/list" //  @GetMapping("/list")실행
     }
 
     @GetMapping("/list")
-    fun list() : String {
+    fun list(md: Model) : String {
+        val boardList = boardService.BoardRepo.findAll().toPrint() // toPrint
+        md.addAttribute("boardlist", boardList)
         return "board/list/index" // localhst:8080/board/list/index.html 실행
     }
 
