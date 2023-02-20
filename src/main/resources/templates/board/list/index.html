@@ -21,8 +21,11 @@
     </tr>
     </thead>
     <tbody>
-    <tr> <!--th:each=""-->
-        <td>number cell</td><td>title cell</td><td>content cell</td><td>created cell</td>  <!--th:text=""-->
+    <tr th:each="b : ${boardlist}">
+        <td th:text="${b.articleId}"></td>
+        <td th:text="${b.title}"></td>
+        <td th:text="${b.content}"></td>
+        <td th:text="${b.created}"></td>
     </tr>
     </tbody>
 </table>
@@ -33,7 +36,6 @@
             <input type="button" value="글쓰기">
         </a>
     </div>
-
 </form>
 
 </body>
