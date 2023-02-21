@@ -109,7 +109,7 @@ class SearchController(
     @DeleteMapping("/{id}")
     @ResponseBody
     fun delete(@PathVariable id: Long): String {
-        val result = searchService.delete(id,true,false)
+        val result = searchService.delete(id,true,true)
         if (result.isFailure) {
             return "redirect:/namu/error/"
         }
