@@ -34,11 +34,6 @@ class BoardController(@Autowired val boardService: BoardService) {
     // 로그인이 되어있지 않으면 로그인 페이지로 이동
     fun writePage(session: HttpSession): String {
         val user = session.getAttribute("user")
-        // if (user == null) {
-        //     return "redirect:/user/login?msg=LoginRequired"
-        // } else{
-        // return "board/write/write"
-        //} 엘비스 연산자를 사용하면
         return user?.let {
             "board/write/write"
         } ?: "redirect:/user/login?msg=LoginRequired"
