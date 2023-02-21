@@ -28,16 +28,23 @@ class SearchController(
 
     @GetMapping("/search")
     fun search(req: SearchRequestEntity, model: Model): String {
-        val namu = searchService.search(req.word)
+        // req.word 를 windowed(2) 하고 각각의 값을 searchService.search하고 나온결과를 namu에 넣는다.
+        // namu :: String(req.word) -> List<String>(.windowed(2))
+        // -> List<Result<List<NamuEntity>>>(.map { searchService.search(it) }.filter { it.isSuccess })
+        // -> List<NamuEntity>(.flatMap { it.getOrNull()!! })
+        val namu = req.word.windowed(2).map { searchService.search(it) }.filter { it.isSuccess }.flatMap { it.getOrNull()!! }
 
-        if (namu.isFailure) {
+        // val namu = searchService.search(req.word)
+
+        if (namu.isEmpty()) {
             return "redirect:/namu/error/"
         }
 
-        val namulist = namu.getOrNull()
-
-        model.addAttribute("namus", pagination(namulist!!, req.page, req.limit))
-        model.addAttribute("pagecount", pagecount(namulist, req.limit))
+        // val namulist = namu.getOrNull()
+        // 여기 아래는 테스트가 안되서 작동여부를 모르겠음. 추가해야될건
+        // 위에 값이 중복이 될텐데 중복을 카운트해서 카운트가 높은것을 최우선으로 보여줘야함.
+        model.addAttribute("namus", pagination(namu, req.page, req.limit))
+        model.addAttribute("pagecount", pagecount(namu, req.limit))
 
         return "namu/index"
     }
