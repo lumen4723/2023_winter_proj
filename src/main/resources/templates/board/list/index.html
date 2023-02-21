@@ -27,7 +27,7 @@
         <td th:text="${b.content}"></td>
         <td th:text="${b.created}"></td>
         <td>
-            <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="delete">
+            <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="post">
                 <input type="submit" value="delete">
             </form>
         </td>
