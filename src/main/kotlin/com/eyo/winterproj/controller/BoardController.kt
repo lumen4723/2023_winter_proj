@@ -39,11 +39,10 @@ class BoardController(@Autowired val boardService: BoardService) {
         return "redirect:list"
     }
 
-    @DeleteMapping("/{articleId}")
-    @ResponseBody
-    fun deleteArticle(@PathVariable articleId: DeleteRequestEntity): String {
-        boardService.deleteArticle(articleId.articleId)
-        return "redirect:list"
+    @PostMapping("/{articleId}/delete")
+    fun deleteArticle(@PathVariable articleId: Int): String {
+        boardService.deleteArticle(articleId)
+        return "redirect:/board/list"
     }
 
 }
@@ -51,4 +50,4 @@ data class WriteRequestEntity (val title: String, val content: String)
 
 data class BoardPrintEntity(val articleId: Int, val title: String, val content: String, val created: String)
 
-data class DeleteRequestEntity (val articleId: Int)
+//data class DeleteRequestEntity (val articleId: Int)

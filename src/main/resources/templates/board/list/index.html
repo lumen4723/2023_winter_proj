@@ -26,7 +26,11 @@
         <td th:text="${b.title}"></td>
         <td th:text="${b.content}"></td>
         <td th:text="${b.created}"></td>
-        <td><input type="button" th:href="@{/board/{articleId}(articleId=${b.articleId})}" value="delete"></td>
+        <td>
+            <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="delete">
+                <input type="submit" value="delete">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -37,7 +41,6 @@
             <input type="button" value="글쓰기">
         </a>
     </div>
-</form>
 
 </body>
 </html>
