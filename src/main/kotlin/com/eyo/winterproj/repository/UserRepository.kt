@@ -9,4 +9,5 @@ import java.util.*
 interface UserRepository: CrudRepository<UserEntity, Int>  {
     fun findByEmail(email: String): UserEntity?
     fun findByEmailAndPassword(email: String, password: String): Optional<UserEntity>
+    fun findByno(no: Int): Optional<UserEntity>
 }
