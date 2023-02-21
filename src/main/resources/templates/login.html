@@ -6,9 +6,21 @@
     </head>
     <body>
         <form method="post" action="/user/login">
-            <input type="email" name="email" value="" placeholder="example@email.com"> <br>
-            <input type="password" name="password" value="" placeholder="password"> <br>
-            <input type="submit" value="로그인">
+            아이디 <br><br>
+            <input type="email" name="email" value="" placeholder="이메일"> <br><br>
+            비밀번호 <br><br>
+            <input type="password" name="password" value="" placeholder="비밀번호"> <br><br>
+            <button type="submit">로그인</button>
         </form>
     </body>
+    <style>
+        input{
+            width: 50%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        button{
+            margin-bottom: 30px;
+        }
+    </style>
 </html>
