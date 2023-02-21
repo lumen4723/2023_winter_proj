@@ -26,7 +26,7 @@ class UserController(@Autowired val userService: UserService) {
         return "redirect:/user/login?msg=LoginFailed"
     }
     @PostMapping("/logout")
-    fun logout(user: LogoutRequestEntity, session: HttpSession): String{
+    fun logout(session: HttpSession): String{
             session.removeAttribute("user")
 //            session.invalidate()
             return "redirect:/"
@@ -53,7 +53,7 @@ data class LoginRequestEntity(
     val email:String,
     val password:String
 )
-data class LogoutRequestEntity(
-    val email: String,
-    val password: String
-)
+// data class LogoutRequestEntity(
+//     val email: String,
+//     val password: String
+// )

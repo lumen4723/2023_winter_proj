@@ -12,3 +12,10 @@
         </form>
     </body>
 </html>
+
+<script>
+    // url을 받고 msg을 보고 alert을 띄우는 코드
+    var url = new URL(window.location.href);
+    var msg = url.searchParams.get("msg");
+    if (msg != null) alert(msg);
+</script>
