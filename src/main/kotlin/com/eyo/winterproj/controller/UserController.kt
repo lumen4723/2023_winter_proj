@@ -1,6 +1,7 @@
 package com.eyo.winterproj.controller
 
 import com.eyo.winterproj.service.UserService
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpSession
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -26,10 +27,13 @@ class UserController(@Autowired val userService: UserService) {
         return "redirect:/user/login?msg=LoginFailed"
     }
     @PostMapping("/logout")
-    fun logout(session: HttpSession): String{
-            session.removeAttribute("user")
-//            session.invalidate()
+    fun logout(request: HttpServletRequest, session: HttpSession): String{
+        val session = request.getSession(false)
+        if (session != null) {
+            session.invalidate()
             return "redirect:/"
+        }
+        return "redirect:/user/logout?msg=LogoutFailed"
     }
 
     @GetMapping("/signup")
@@ -53,7 +57,3 @@ data class LoginRequestEntity(
     val email:String,
     val password:String
 )
-// data class LogoutRequestEntity(
-//     val email: String,
-//     val password: String
-// )
