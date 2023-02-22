@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Write</title>
+    <title>글쓰기페이지</title>
     <style>
         #headTitle { text-align: center }
         #title {width: 300px}
@@ -17,18 +17,16 @@
 <body>
 <h1 id="headTitle">write</h1>
 <hr color="black" size="5px">
-
-<form action="/board/write" method="post"> <!-- input 태그 옵션 알아볼것-->
-    <div>
-        <label>Title</label>
-        <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
-    </div><br>
-    <div>
-        <label>Content</label>
-        <textarea id="content" name="content" rows="5" cols="40" placeholder="내용을 입력하세요"></textarea>
-    </div><br>
-    <input type="submit" value="글생성">
-</form>
-
+    <form action="/board/write" method="post">
+        <div>
+            <label>Title</label>
+            <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
+        </div><br>
+        <div>
+            <label>Content</label>
+            <textarea id="content" name="content" rows="5" cols="40" placeholder="내용을 입력하세요"></textarea>
+        </div><br>
+        <input type="submit" value="글생성">
+    </form>
 </body>
 </html>

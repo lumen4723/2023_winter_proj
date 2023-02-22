@@ -22,4 +22,16 @@ class BoardService(@Autowired val BoardRepo : BoardRepo) {
         return BoardRepo.findByArticleId(articleId)
     }
 
+    fun updateArticle(updateId: Int, title: String, content: String): Optional<BoardEntity> {
+        val updAr = BoardRepo.findByArticleId(updateId).get()
+        if(updAr.articleId == updateId) {
+            updAr.title = title
+            updAr.content = content
+            if(updAr.title != "" && updAr.content != "") {
+                BoardRepo.save(updAr)
+            }
+        }
+        return BoardRepo.findByArticleId(updateId)
+    }
+
 }

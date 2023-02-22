@@ -24,11 +24,12 @@
         <th>조회수</th>
         <th>작성자</th>
         <th>삭제</th>
+        <th>수정</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="b : ${boardlist}">
-        <td th:text="${b.articleId}"></td> <!-- index로 change-->
+        <td th:text="${b.articleId}"></td>
         <td th:text="${b.title}"></td>
         <td th:text="${b.content}"></td>
         <td th:text="${b.created}"></td>
@@ -37,6 +38,11 @@
         <td>
             <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="post">
                 <input type="submit" value="delete">
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="|/board/modify/${b.articleId}|" method="#" th:method="get">
+                <input type="submit" value="modify">
             </form>
         </td>
     </tr>

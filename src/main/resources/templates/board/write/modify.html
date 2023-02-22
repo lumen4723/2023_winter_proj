@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>수정페이지</title>
+  <style>
+    #headTitle { text-align: center }
+    #title {width: 300px}
+    label {
+      display: inline-block;
+      text-align: center;
+      width: 80px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<h1 id="headTitle">Update</h1>
+<hr color="black" size="5px">
+<div>
+    <form action="#" th:action="|/board/modify/${articleId}|" method="post">
+        <div>
+            <label>Title</label>
+            <input type="text" id="title" name="title" th:value="${bringArticle.title}">
+        </div><br>
+        <div>
+            <label>Content</label>
+            <textarea id="content" name="content" rows="5" cols="40" th:text="${bringArticle.content}"></textarea>
+        </div><br>
+        <input type="submit" value="글수정">
+    </form>
+</div>
+
+</body>
+</html>

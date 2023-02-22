@@ -65,9 +65,29 @@ class BoardController(@Autowired val boardService: BoardService, @Autowired val 
         return "redirect:/board/list"
     }
 
+    @GetMapping("/modify/{articleId}")
+    fun updatePage(md: Model, @PathVariable articleId: Int): String {
+        val bringArticle = boardService.BoardRepo.findByArticleId(articleId).map {
+            UpdateRequestEntity(
+                title = it.title,
+                content = it.content
+            )
+        }.get()
+
+        md.addAttribute("articleId",articleId)
+        md.addAttribute("bringArticle", bringArticle)
+        return "board/write/modify"
+    }
+
+    @PostMapping("/modify/{articleId}")
+    fun updateArticle(@PathVariable articleId: Int, up: UpdateRequestEntity): String {
+        boardService.updateArticle(articleId, up.title, up.content)
+        return "redirect:/board/list"
+    }
 }
 data class WriteRequestEntity (val title: String, val content: String)
 
-data class BoardPrintEntity(val articleId: Int, val title: String, val content: String, val created: String, val view: Int, val username: String)
+data class BoardPrintEntity (val articleId: Int, val title: String, val content: String, val created: String, val view: Int, val username: String)
 
-//data class DeleteRequestEntity (val articleId: Int)
+data class UpdateRequestEntity (val title: String, val content: String)
+
