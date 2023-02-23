@@ -10,11 +10,7 @@ import jakarta.servlet.http.HttpSession
 @RequestMapping("/")
 class MainController {
     @GetMapping("/")
-    fun main(model: Model, session: HttpSession): String {
-        val user = session.getAttribute("user")
-        if (user != null) {
-            model.addAttribute("user", user)
-        }
+    fun main(model: Model): String {
         return "index"
     }
 
