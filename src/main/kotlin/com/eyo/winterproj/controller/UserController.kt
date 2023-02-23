@@ -50,7 +50,7 @@ class UserController(@Autowired val userService: UserService, @Autowired val ema
     }
     @GetMapping("/mailCheck")
     @ResponseBody
-    fun send(user: emailRequestEntity) : String {
+    fun send(user: EmailRequestEntity) : String {
         val result =  emailService.sendEmail(user.email)
         return "TEST";
     }
@@ -65,4 +65,7 @@ data class RegisterRequestEntity(
 data class LoginRequestEntity(
     val email:String,
     val password:String
+)
+data class EmailRequestEntity(
+    val email:String
 )

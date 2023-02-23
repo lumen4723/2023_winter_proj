@@ -43,6 +43,9 @@ dependencies {
 	implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
 	// https://mvnrepository.com/artifact/org.json/json
 	implementation("org.json:json:20220924")
+	// https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java
+	implementation("com.sendgrid:sendgrid-java:4.9.3")
+
 }
 
 tasks.withType<KotlinCompile> {
