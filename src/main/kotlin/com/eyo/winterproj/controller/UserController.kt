@@ -45,7 +45,7 @@ class UserController(@Autowired val userService: UserService, @Autowired val ema
 
     @PostMapping("/signup")
     fun registerP(user:RegisterRequestEntity) :String{
-        userService.register(user.email, user.password, user.username)
+        userService.register(user.email, user.password, user.username, user.number)
         return "redirect:/user/login"
     }
     @GetMapping("/mailCheck")
@@ -60,6 +60,7 @@ data class RegisterRequestEntity(
     val email:String,
     val password:String,
     val username:String,
+    val number:String,
 )
 data class LoginRequestEntity(
     val email:String,
