@@ -17,12 +17,28 @@
     <caption><strong>게시글 목록</strong></caption>
     <thead>
     <tr>
-        <th>번호</th><th>제목</th><th>내용</th><th>작성일</th>
+        <th>번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>작성일</th>
+        <th>조회수</th>
+        <th>작성자</th>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
-    <tr> <!--th:each=""-->
-        <td>number cell</td><td>title cell</td><td>content cell</td><td>created cell</td>  <!--th:text=""-->
+    <tr th:each="b : ${boardlist}">
+        <td th:text="${b.articleId}"></td> <!-- index로 change-->
+        <td th:text="${b.title}"></td>
+        <td th:text="${b.content}"></td>
+        <td th:text="${b.created}"></td>
+        <td th:text="${b.view}"></td>
+        <td th:text="${b.username}"></td>
+        <td>
+            <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="post">
+                <input type="submit" value="delete">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -33,8 +49,6 @@
             <input type="button" value="글쓰기">
         </a>
     </div>
-
-</form>
 
 </body>
 </html>

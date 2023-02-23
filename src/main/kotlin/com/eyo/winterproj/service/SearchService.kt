@@ -63,6 +63,7 @@ class SearchService(
 
     fun delete(id: Long,deleteNamu: Boolean,deleteReverse: Boolean): Result<Boolean> {
         val namu = namuRepo.findByIdAndFlag(id,1).orElse(null)
+        var deleteWord = false
         if(namu == null) return Result.failure(Exception("삭제할 게시글이 없습니다."))
         if(deleteNamu){
             namu.flag = 0
@@ -70,14 +71,15 @@ class SearchService(
         }
         searchWordReverseRepo.findByNamuId(id).ifPresent {
             it.forEach {
-                it.searchWord!!.count = it.searchWord!!.count!! - it.count!!
-                if(it.searchWord!!.count <= 0) {
+                val word = it.searchWord!!
+                word.count = word!!.count!! - it.count!!
+                if(word.count <= 0) {
                     println(it.searchWord!!)
-                    println("해당 단어를 가진 엔티티가 없습니다. 후에 삭제 부탁드립니다.")
-                    it.searchWord!!.count = 0
+                    deleteWord = true
                 }
                 searchWordRepo.save(it.searchWord!!)
                 if(deleteReverse) searchWordReverseRepo.delete(it)
+                if(deleteWord) searchWordRepo.delete(it.searchWord!!)
             }
         }
         return Result.success(true)

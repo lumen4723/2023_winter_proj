@@ -18,4 +18,11 @@ class UserService(@Autowired val userRepository: UserRepository) {
         userRepository.save(user)
         return user
     }
+
+    fun findusername(userId: Int): String {
+        if(userRepository.findByno(userId).isPresent){
+            return userRepository.findByno(userId).get().name
+        }
+        return "삭제된 회원"
+    }
 }
