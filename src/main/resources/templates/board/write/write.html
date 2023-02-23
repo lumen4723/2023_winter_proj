@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write</title>
+    <style>
+        #headTitle { text-align: center }
+        #title {width: 300px}
+        label {
+            display: inline-block;
+            text-align: center;
+            width: 80px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1 id="headTitle">write</h1>
+<hr color="black" size="5px">
+
+<form action="/board/write" method="post"> <!-- input 태그 옵션 알아볼것-->
+    <div>
+        <label>Title</label>
+        <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
+    </div><br>
+    <div>
+        <label for="content">Contents</label>
+        <textarea id="content" name="content" rows="5" cols="40" placeholder="내용을 입력하세요"></textarea>
+    </div><br>
+    <input type="submit" value="글생성">
+</form>
+
+</body>
+</html>

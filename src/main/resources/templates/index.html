@@ -7,14 +7,26 @@
         <title>Main</title>
     </head>
     <body>
-        Main페이지를 제외하고 되도록 모든 페이지는 각자 폴더를 만들어서 관리
-        해주세용
-        <br />
-        port는 8080으로 설정해놨습니다.
-        <br />
-        현재 확인한 바로는 500에러를 제외하고 404에러류는 발생하지 않는 것으로
-        확인되었습니다 만 본인 코드에 문제가 있을 경우에는 즉시 알려주세요
-        <br />
-        젠킨스 웹훅 테스트 버전 1.4
+        <div>
+            <span>메인 페이지</span>
+            <a href="/board/">게시판</a>
+            <a href="/namu/">나무위키 검색</a>
+            <a href="/notice">공지사항</a>
+            <span th:if="${user != null}">
+                <span th:text="${user.name}"></span>
+                <span style="display: inline-block;">
+                    <form action="/user/logout" method="post">
+                        <a href="#" onclick="this.closest('form').submit()">
+                            로그아웃
+                        </a>
+                    </form>
+                </span>
+                
+            </span>
+            <span th:if="${user == null}">
+                <a href="/user/login">로그인</a>
+                <a href="/user/signup">회원가입</a>
+            </span>
+        </div>
     </body>
 </html>

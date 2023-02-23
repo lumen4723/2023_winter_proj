@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board List</title>
+    <style>
+        #headTitle { text-align: center }
+    </style>
 </head>
 <body>
-<h1>test</h1>
+<section>
+    <h1 id="headTitle">게시판</h1>
+    <hr color="black" size="5px">
+</section>
+
+<table border="1">
+    <caption><strong>게시글 목록</strong></caption>
+    <thead>
+    <tr>
+        <th>번호</th><th>제목</th><th>내용</th><th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr> <!--th:each=""-->
+        <td>number cell</td><td>title cell</td><td>content cell</td><td>created cell</td>  <!--th:text=""-->
+    </tr>
+    </tbody>
+</table>
+<br>
+<!--<form method="get" action="/board/write">-->
+    <div>
+        <a href="/board/write">
+            <input type="button" value="글쓰기">
+        </a>
+    </div>
+
+</form>
+
 </body>
 </html>
+

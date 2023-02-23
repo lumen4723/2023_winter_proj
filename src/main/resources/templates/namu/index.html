@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
+        <title>Namu</title>
+    </head>
+    <body>
+        <form action="/namu/search" method="get">
+            <input type="text" name="word" />
+            <button type="submit">search</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>title</th>
+                    <th>content</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="namu : ${namus}">
+                    <td>
+                        <a th:data-id="${namu.id}" th:text="${namu.title}" class="show-detail"></a>
+                    </td>
+                    <td th:text="${namu.content}"></td>
+                    <td>
+                        <button th:data-id="${namu.id}" class="btn-del">
+                            삭제
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${pagecount > 1}">
+            <span th:each="i : ${#numbers.sequence(1, pagecount)}">
+                <a th:text="${i}" class="btn-page"></a>
+            </span>
+        </div>
+    </body>
+    <script>
+        $('.btn-del').click((e) => {
+            let is_delete = confirm('정말 삭제하시겠습니까?');
+            if (is_delete) {
+                $.ajax({
+                    url: '/namu/' + $(e.target).data('id'),
+                    type: 'DELETE',
+                    dataType: 'text',
+                    success: (data) => {
+                        alert(data);
+                        location.reload();
+                    },
+                });
+            }
+        });
+
+        $('.btn-page').click((e) => {
+            //현재 경로에서 page 파라미터를 추가또는 변경
+            let url = new URL(location.href);
+            url.searchParams.set('page', $(e.target).text());
+            location.href = url;
+        });
+
+        $('.show-detail').click((e) => {
+            // data-id 속성을 가져와서 /namu/{id}로 이동
+            location.href = '/namu/' + $(e.target).data('id');
+        });
+    </script>
+</html>
