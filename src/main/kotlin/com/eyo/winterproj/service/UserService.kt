@@ -12,12 +12,9 @@ class UserService(@Autowired val userRepository: UserRepository) {
     fun login(email: String,  password: String): Optional<UserEntity>{
         return userRepository.findByEmailAndPassword(email, password)
     }
-//    fun logout(email: String, password: String): Optional<UserEntity>{
-//        return userRepository.findByEmailAndPassword(email, password)
-//    }
 
-    fun register(email:String, password:String,name:String): UserEntity {
-        val user= UserEntity(0,email, password, name);
+    fun register(email:String, password:String, name:String, number:String): UserEntity {
+        val user= UserEntity(0,email, password, name, number);
         userRepository.save(user)
         return user
     }
