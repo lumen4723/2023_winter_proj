@@ -37,7 +37,12 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
 	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.2")
-
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	implementation("com.googlecode.json-simple:json-simple:1.1.1")
+	// https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+	implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+	// https://mvnrepository.com/artifact/org.json/json
+	implementation("org.json:json:20220924")
 }
 
 tasks.withType<KotlinCompile> {
