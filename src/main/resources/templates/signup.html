@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>REGISTER</title>
+
 </head>
 <body>
 <form method="POST">
     <input type="email" name="email" placeholder="example@email.com"> <button type="button" class="emailVerified">인증</button><br>
     <input type="password" name="password" placeholder="password"><br>
     <input type="username" name="username" placeholder="user name"><br>
-    <input type="number" name="number" placeholder="010-1234-5678"> <button type="button">전송</button><br>
-    <input type="submit" name="submit">
+    <input type="number" name="number" placeholder="010-1234-5678"> <button type="button" onclick="javascript:btn1()">인증번호 전송</button><br>
+    <input type="text" name="validnumber" placeholder="인증번호를 입력하세요"> <button type="button" onclick="javascript:btn2()">확인</button> <br>
+    <input type="submit" name="submit" onclick="javascript:submit()">
 </form>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -35,5 +37,32 @@
             alert("이메일 주소를 입력해주세요.");
         }
     })
+</script>
+<script>
+    function btn1(){
+        $.get('/user/sendSMS', {
+            'number': $('input[name=number]').val()
+        }, function(txt, _) {
+            alert(txt);
+        })
+    }
+
+    function btn2(){
+        $.get('/user/validNum',{
+            'number': $('input[name=number]').val(),
+            'validnumber': $('input[name=validnumber]').val()
+        }, function(txt, _) {
+            alert(txt);
+        })
+    }
+
+    function submit(){
+        $.get('/user/validNum',{
+            'number': $('input[name=number]').val(),
+            'validnumber': $('input[name=validnumber]').val()
+        }, function(txt, _) {
+            alert(txt);
+        })
+    }
 </script>
 </html>
