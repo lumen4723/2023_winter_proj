@@ -10,15 +10,6 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         ></script>
-        <style>
-            table {
-                border-collapse: collapse;
-            }
-            th,
-            td {
-                border: 1px solid black;
-            }
-        </style>
         <title>Namu</title>
     </head>
     <body>
@@ -84,3 +75,74 @@
         });
     </script>
 </html>
+
+<style>
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    input[type="text"] {
+        padding: 10px;
+        border: none;
+        border-bottom: 2px solid #333;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+    button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    /* 테이블 */
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: auto;
+    }
+    thead {
+        background-color: #eee;
+        text-align: left;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    th {
+        font-weight: bold;
+    }
+    a.show-detail {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    button.btn-del {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+    /* 페이지네이션 */
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    span {
+        padding: 5px;
+        margin-right: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+    a.btn-page {
+        color: #333;
+        text-decoration: none;
+    }
+    a.btn-page:hover {
+        background-color: #333;
+        color: #fff;
+    }
+</style>

@@ -13,13 +13,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
-    @Autowired
-    lateinit var dataInterceptor: DataInterceptor
+    @Autowired lateinit var dataInterceptor: DataInterceptor
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(dataInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/logout")
+            .addPathPatterns("/**")
+            .excludePathPatterns("/login", "/logout")
     }
 }
 

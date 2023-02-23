@@ -5,6 +5,31 @@
     <title>Board List</title>
     <style>
         #headTitle { text-align: center }
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin-bottom: 20px;
+            margin: auto;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="button"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="button"]:hover {
+            background-color: #3e8e41;
+        }
     </style>
 </head>
 <body>
@@ -44,13 +69,11 @@
     </tbody>
 </table>
 <br>
-<!--<form method="get" action="/board/write">-->
-    <div>
-        <a href="/board/write">
-            <input type="button" value="글쓰기">
-        </a>
-    </div>
+<div>
+    <a href="/board/write">
+        <input type="button" value="글쓰기">
+    </a>
+</div>
 
 </body>
 </html>
-

@@ -20,7 +20,10 @@ import com.eyo.winterproj.util.formatPrint
 
 @Controller
 @RequestMapping("/board") // board게시판은 localhost:8080/board을 입력하면 class가 2개면 무엇을 우선으로
-class BoardController(@Autowired val boardService: BoardService, @Autowired val userService: UserService) {
+class BoardController(
+    @Autowired val boardService: BoardService,
+    @Autowired val userService: UserService
+) {
     @GetMapping("/")
     fun index() : String {
         return "redirect:/board/list" //  @GetMapping("/list")실행

@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 @RequestMapping("user")
-class UserController(@Autowired val userService: UserService, @Autowired val emailService: EmailService,@Autowired val smsSvc : SmsSenderService) {
+class UserController(
+    @Autowired val userService: UserService,
+    @Autowired val emailService: EmailService,
+    @Autowired val smsSvc : SmsSenderService
+) {
     @GetMapping("/login")
     fun login():String{
         return "login"
