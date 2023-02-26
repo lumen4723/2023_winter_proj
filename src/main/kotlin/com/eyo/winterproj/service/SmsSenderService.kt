@@ -15,12 +15,12 @@ class SmsSenderService() {
     val accessKey = "ZJAbk8iGPKZjsC9bhxHI" // Replace with your Ncloud API access key
     val secretKey = "vfq44SM1EPOZBMZd6f2gqUYFzoqg3dyTYjzcO9p8" // Replace with your Ncloud API secret key
 
-    fun sendSMS() {
+    fun sendSMS(number: String, hashcode:String) {
 
         // Set the sender and recipient phone numbers and message content
         val sender = "01098000336" // Replace with your phone number
-        val recipient = "01098334241" // Replace with the recipient's phone number
-        val message = "Hello from Ncloud SMS API!"
+        val recipient = number // Replace with the recipient's phone number
+        val message = "인증코드는 ${hashcode}입니다"
 
         // Set the request body as a JSON object
         val requestBody = JSONObject()
