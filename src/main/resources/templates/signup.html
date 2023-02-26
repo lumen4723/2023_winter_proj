@@ -7,6 +7,8 @@
 <body>
 <form method="POST">
     <input type="email" name="email" placeholder="example@email.com"> <button type="button" class="emailVerified">인증</button><br>
+    <input type="text" name="authCode" placeholder="인증코드"> <button type="button" class="codeCheck">확인</button><br>
+    <span name="msg"></span>
     <input type="password" name="password" placeholder="password"><br>
     <input type="username" name="username" placeholder="user name"><br>
 
@@ -20,7 +22,6 @@
         if(email != ''){
             $.ajax({
                 type:"GET",
-                // url:'/mailCheck' + $("input[name='email']").val(),
                 url:"/user/mailCheck?email=" + email.val(),
                 cache : false,
                 success:function(data){
@@ -35,5 +36,6 @@
             alert("이메일 주소를 입력해주세요.");
         }
     })
+
 </script>
 </html>

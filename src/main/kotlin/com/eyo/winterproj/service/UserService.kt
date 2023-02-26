@@ -1,9 +1,11 @@
 package com.eyo.winterproj.service
 
+import com.eyo.winterproj.entity.EmailEntity
 import com.eyo.winterproj.entity.UserEntity
 import com.eyo.winterproj.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.Optional
 
 
@@ -18,4 +20,5 @@ class UserService(@Autowired val userRepository: UserRepository) {
         userRepository.save(user)
         return user
     }
+
 }

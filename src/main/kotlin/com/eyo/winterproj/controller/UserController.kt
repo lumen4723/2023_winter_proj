@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
+import kotlin.math.floor
 
 
 @Controller
@@ -51,9 +53,17 @@ class UserController(@Autowired val userService: UserService, @Autowired val ema
     @GetMapping("/mailCheck")
     @ResponseBody
     fun send(user: EmailRequestEntity) : String {
-        val result =  emailService.sendEmail(user.email)
+//        val random = floor(Math.random()*10)
+        val random = (0..999999).random().toString().padStart(4, '0')
+        val result =  emailService.sendEmail(user.email, random)
+        emailService.checkCode(user.email, random, LocalDateTime.now())
         return "TEST";
     }
+//    @PostMapping("/mailCheck")
+//    fun registerP(user:RegisterRequestEntity) :String{
+//        emailService.checkCode(user.email, )
+//        return "redirect:/user/login"
+//    }
 }
 
 data class RegisterRequestEntity(
@@ -66,5 +76,5 @@ data class LoginRequestEntity(
     val password:String
 )
 data class EmailRequestEntity(
-    val email:String
+    val email:String,
 )
