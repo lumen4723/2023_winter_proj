@@ -54,7 +54,8 @@ class SearchController(
         val end = if (start + limit < namus.size) start + limit else namus.size
         var showlist = namus.subList(start, end)
         val textcut = 100 // limit text length in list
-        showlist.forEach{ it.content = it.content!!.substring(0, textcut) + "..." }
+        showlist.forEach{ 
+            if(it.content!!.length > textcut) it.content = it.content!!.substring(0, textcut) + "..." }
         return showlist
     }
     
