@@ -2,9 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board List</title>
+    <style>
+        #headTitle { text-align: center }
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin-bottom: 20px;
+            margin: auto;
+        }
+        th, td {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input[type="button"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="button"]:hover {
+            background-color: #3e8e41;
+        }
+    </style>
 </head>
 <body>
-<h1>test</h1>
+<header th:replace="/fragments/header.html"></header>
+<section>
+    <h1 id="headTitle">게시판</h1>
+    <hr color="black" size="5px">
+</section>
+
+<table border="1">
+    <caption><strong>게시글 목록</strong></caption>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>작성일</th>
+        <th>조회수</th>
+        <th>작성자</th>
+        <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="b : ${boardlist}">
+        <td th:text="${b.articleId}"></td> <!-- index로 change-->
+        <td th:text="${b.title}"></td>
+        <td th:text="${b.content}"></td>
+        <td th:text="${b.created}"></td>
+        <td th:text="${b.view}"></td>
+        <td th:text="${b.username}"></td>
+        <td>
+            <form action="#" th:action="|/board/${b.articleId}/delete|" method="#" th:method="post">
+                <input type="submit" value="delete">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<div>
+    <a href="/board/write">
+        <input type="button" value="글쓰기">
+    </a>
+</div>
+
 </body>
 </html>
