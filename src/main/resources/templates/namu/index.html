@@ -40,8 +40,8 @@
             </tbody>
         </table>
 
-        <div th:if="${pagecount > 1}">
-            <span th:each="i : ${#numbers.sequence(1, pagecount)}">
+        <div th:if="${pagecount > 1}" class="pag-area">
+            <span th:each="i : ${#numbers.sequence(1, pagecount)}" class="pag-index">
                 <a th:text="${i}" class="btn-page"></a>
             </span>
         </div>
@@ -125,13 +125,13 @@
         cursor: pointer;
     }
     /* 페이지네이션 */
-    div {
+    .pag-area {
         display: flex;
         justify-content: center;
         align-items: center;
         margin-top: 20px;
     }
-    span {
+    .pag-index {
         padding: 5px;
         margin-right: 5px;
         border: 1px solid #ccc;
