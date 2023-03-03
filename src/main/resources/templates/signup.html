@@ -40,7 +40,7 @@
     $('button.codeCheck').click(function(e){
         let email = $('input[name=email]')
         if(email != ''){
-            $.get('/user/authNum',{
+            $.get('/user/authEmail',{
                 'email': $('input[name=email]').val(),
                 'authCode': $('input[name=authCode]').val()
             }, function(txt, _) {
