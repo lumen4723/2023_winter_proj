@@ -77,16 +77,21 @@ class UserController(@Autowired val userService: UserService, @Autowired val ema
 
     @GetMapping("/mailCheck")
     @ResponseBody
-    fun send(user: EmailRequestEntity) : String {
-//        val random = floor(Math.random()*10)
-        val random = (0..999999).random().toString().padStart(4, '0')
-        val result =  emailService.sendEmail(user.email, random)
-        emailService.checkCode(user.email, random, LocalDateTime.now())
-        return "TEST";
+    fun send(email:String) : String {
+//        val random = (0..999999).random().toString().padStart(6, '0')
+//        emailService.sendEmail(user.email, random)
+//        emailService.checkCode(email, random, LocalDateTime.now())
+        emailService.sendEmail(email, HashUtil().getHash(email).substring(0..6))
+        return "ok";
     }
-
-
-
+    @GetMapping("/authEmail")
+    @ResponseBody
+    fun authEmail(email: String, authCode:String) : String{
+        if( authCode ==HashUtil().getHash(email).substring(0..6)){
+            return "인증이 완료되었습니다";
+        }
+        return "올바르지 않은 인증번호입니다.\n다시 입력해주세요.";
+    }
 }
 
 data class RegisterRequestEntity(
@@ -100,6 +105,6 @@ data class LoginRequestEntity(
     val email:String,
     val password:String
 )
-data class EmailRequestEntity(
-    val email:String
-)
+//data class EmailRequestEntity(
+//    val email:String
+//)

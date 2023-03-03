@@ -7,11 +7,10 @@
 </head>
 <body>
 <form method="POST">
+    <input type="username" name="username" placeholder="user name"><br><br>
     <input type="email" name="email" placeholder="example@email.com"> <button type="button" class="emailVerified">인증</button><br>
-    <input type="text" name="authCode" placeholder="인증코드"> <button type="button" class="codeCheck">확인</button><br>
-    <span name="msg"></span>
-    <input type="password" name="password" placeholder="password"><br>
-    <input type="username" name="username" placeholder="user name"><br>
+    <input type="text" name="authCode" placeholder="인증번호"> <button type="button" class="codeCheck">확인</button><br>
+    <input type="password" name="password" placeholder="password"><br><br>
     <input type="number" name="number" placeholder="010-1234-5678"> <button type="button" onclick="javascript:btn1()">인증번호 전송</button><br>
     <input type="text" name="validnumber" placeholder="인증번호를 입력하세요"> <button type="button" onclick="javascript:btn2()">확인</button> <br>
     <input type="submit" name="submit" onclick="javascript:submit()">
@@ -20,7 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $('button.emailVerified').click(function (e){
-        let email = $("input[name='email']")
+        let email = $('input[name=email]')
         if(email != ''){
             $.ajax({
                 type:"GET",
@@ -38,7 +37,19 @@
             alert("이메일 주소를 입력해주세요.");
         }
     })
-
+    $('button.codeCheck').click(function(e){
+        let email = $('input[name=email]')
+        if(email != ''){
+            $.get('/user/authNum',{
+                'email': $('input[name=email]').val(),
+                'authCode': $('input[name=authCode]').val()
+            }, function(txt, _) {
+                alert(txt);
+            })
+        }else{
+            alert("인증번호를 입력해주세요.");
+        }
+    })
 </script>
 <script>
     function btn1(){
@@ -67,4 +78,22 @@
         })
     }
 </script>
+<style>
+    form{
+        box-sizing: border-box;
+        outline: none;
+        margin: auto;
+        width: 400px;
+        border: 1px solid #d7d7d7;
+        padding: 20px;
+    }
+    input{
+        width: auto;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    button{
+        margin-bottom: 30px;
+    }
+</style>
 </html>
